@@ -1,4 +1,4 @@
-from flask import Flask, request, make_response, redirect
+from flask import Flask, request, make_response, redirect, render_template
 
 # creamos instancia de Flask
 app = Flask(__name__)
@@ -10,7 +10,7 @@ def index():
     user_ip = request.remote_addr
 
     response = make_response(redirect('/hello'))
-    #response.set_cookie('user_ip', user_ip) ===> Almacena la ip en la cookie del navegador
+    # response.set_cookie('user_ip', user_ip) ===> Almacena la ip en la cookie del navegador
     response.set_cookie('user_ip', user_ip)
 
     return response
@@ -20,4 +20,5 @@ def index():
 def hello():
     # request.cookies.get('user_ip') ==> obtiene la ip del usuario que esta almacenada en la cookie
     user_ip = request.cookies.get('user_ip')
-    return 'Bienvenido, tu IP es {}'.format(user_ip)
+    # return 'Bienvenido, tu IP es {}'.format(user_ip)
+    return render_template("index.html", user_ip=user_ip)
