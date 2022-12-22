@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pagina Principal</title>
-</head>
-<body>
+  </head>
+  <body>
+    {% if user_ip %}
     <h2>Bienvenido, tu IP es {{user_ip}}</h2>
-</body>
+    {% else %}
+    <a href="{{url_for('index')}}">Ir a inicio</a>
+    {%endif%}
+
+    <ol>
+      {% for todo in todos %}
+      <li>{{todo}}</li>
+      {% endfor %}
+    </ol>
+  </body>
 </html>
