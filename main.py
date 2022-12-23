@@ -1,9 +1,15 @@
-from flask import Flask, request, make_response, redirect, render_template
+from flask import Flask, request, make_response, redirect, render_template, session
 from flask_bootstrap import Bootstrap4;
+
+from dotenv import load_dotenv
+import os
+
 # creamos instancia de Flask
 app = Flask(__name__)
-
 bootstrap = Bootstrap4(app)
+
+load_dotenv()
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 todos = ['Todo 1', 'Todo 2', 'Todo 3']
 
@@ -25,7 +31,9 @@ def index():
 
     response = make_response(redirect('/hello'))
     # response.set_cookie('user_ip', user_ip) ===> Almacena la ip en la cookie del navegador
-    response.set_cookie('user_ip', user_ip)
+    #response.set_cookie('user_ip', user_ip)
+
+    session['user_ip'] = user_ip
 
     return response
 
@@ -33,8 +41,8 @@ def index():
 @app.route("/hello")
 def hello():
     # request.cookies.get('user_ip') ==> obtiene la ip del usuario que esta almacenada en la cookie
-    user_ip = request.cookies.get('user_ip')
-
+    #user_ip = request.cookies.get('user_ip')
+    user_ip = session.get('user_ip')
     context = {
         'user_ip': user_ip,
         'todos': todos
