@@ -8,6 +8,11 @@
 {% endblock title %} 
 
 {% block content %}
+
+  {% if username %}
+    <h2>Bienvenido, {{username | capitalize}}</h2>
+  {% endif %}
+
   {%if user_ip %}
     <h2>Bienvenido, tu IP es {{user_ip}}</h2>
   {% else %}
