@@ -10,6 +10,11 @@ todos = ['Todo 1', 'Todo 2', 'Todo 3']
 def not_found(error):
     return render_template('404.html', error=error)
 
+# Error 500
+@app.errorhandler(500)
+def not_found(error):
+    return render_template('500.html', error=error)
+
 
 @app.route('/')
 def index():
