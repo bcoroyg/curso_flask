@@ -34,6 +34,7 @@ def not_found(error):
 
 
 @app.route('/index')
+@app.route('/')
 def index():
     # request.remote_addr ==> obtiene la ip del usuario(quien realiza la peticion)
     user_ip = request.remote_addr
