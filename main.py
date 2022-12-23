@@ -4,6 +4,8 @@ from flask_wtf import FlaskForm
 from wtforms.fields import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
 
+import unittest
+
 from dotenv import load_dotenv
 import os
 
@@ -23,6 +25,11 @@ class LoginForm(FlaskForm):
     submit= SubmitField('Enviar')
 
 
+@app.cli.command()
+def test():
+    tests= unittest.TestLoader().discover('tests')
+    unittest.TextTestRunner().run(tests)
+
 # Error 404
 @app.errorhandler(404)
 def not_found(error):
@@ -36,7 +43,7 @@ def not_found(error):
     return render_template('500.html', error=error)
 
 
-@app.route('/')
+@app.route('/index')
 def index():
     # request.remote_addr ==> obtiene la ip del usuario(quien realiza la peticion)
     user_ip = request.remote_addr
