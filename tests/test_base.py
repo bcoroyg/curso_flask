@@ -33,12 +33,14 @@ class MainTest(TestCase):
 
     def test_hello_post(self):
         target_url = url_for('hello')
-        fake_form = {
-            "username": 'fake',
-            "password": "fake-password"
-        }
-        response = self.client.post(target_url, data=fake_form)
-        self.assertRedirects(response, target_url)
+        # fake_form = {
+        #     "username": 'fake',
+        #     "password": "fake-password"
+        # }
+        # response = self.client.post(target_url,data=fake_form)
+        response = self.client.post(target_url)
+        # self.assertRedirects(response, target_url)
+        self.assertTrue(response.status_code, 405)
 
     def test_auth_blueprint_exists(self):
         self.assertIn('auth', self.app.blueprints)
@@ -52,3 +54,13 @@ class MainTest(TestCase):
         target_url = url_for('auth.login')
         self.client.get(target_url)
         self.assertTemplateUsed('login.html')
+
+    def test_auth_login_template(self):
+        target_url = url_for('auth.login')
+        redirect_url = url_for('index')
+        fake_form = {
+            "username": 'fake',
+            "password": "fake-password"
+        }
+        response = self.client.post(target_url,data=fake_form)
+        self.assertRedirects(response, redirect_url)

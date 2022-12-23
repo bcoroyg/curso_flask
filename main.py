@@ -3,7 +3,6 @@ from flask import request, make_response, redirect, render_template, session, ur
 import unittest
 
 from app import create_app
-from app.forms import LoginForm
 
 # creamos instancia de Flask
 #app = Flask(__name__)
@@ -48,27 +47,18 @@ def index():
     return response
 
 
-@app.route("/hello", methods=['GET', 'POST'])
+@app.route("/hello", methods=['GET'])
 def hello():
     # request.cookies.get('user_ip') ==> obtiene la ip del usuario que esta almacenada en la cookie
     # user_ip = request.cookies.get('user_ip')
     user_ip = session.get('user_ip')
     username = session.get('username')
-    login_form = LoginForm()
+
     context = {
         'user_ip': user_ip,
         'todos': todos,
-        'login_form': login_form,
         'username': username
     }
-    
-    if login_form.validate_on_submit():
-        username= login_form.username.data
-        session['username'] = username
-        
-        flash('Nombre de usuario registrado con éxito!')
-        
-        return redirect(url_for('index'))
 
     # return 'Bienvenido, tu IP es {}'.format(user_ip)
     # return render_template("index.html", user_ip=user_ip, todos=todos)
