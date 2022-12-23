@@ -1,5 +1,8 @@
 from flask import Flask, request, make_response, redirect, render_template, session
-from flask_bootstrap import Bootstrap4;
+from flask_bootstrap import Bootstrap4
+from flask_wtf import FlaskForm
+from wtforms.fields import StringField, PasswordField, SubmitField
+from wtforms.validators import DataRequired
 
 from dotenv import load_dotenv
 import os
@@ -13,12 +16,21 @@ app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 todos = ['Todo 1', 'Todo 2', 'Todo 3']
 
+
+class LoginForm(FlaskForm):
+    username = StringField('Nombre de usuario', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit= SubmitField('Enviar')
+
+
 # Error 404
 @app.errorhandler(404)
 def not_found(error):
     return render_template('404.html', error=error)
 
 # Error 500
+
+
 @app.errorhandler(500)
 def not_found(error):
     return render_template('500.html', error=error)
@@ -31,7 +43,7 @@ def index():
 
     response = make_response(redirect('/hello'))
     # response.set_cookie('user_ip', user_ip) ===> Almacena la ip en la cookie del navegador
-    #response.set_cookie('user_ip', user_ip)
+    # response.set_cookie('user_ip', user_ip)
 
     session['user_ip'] = user_ip
 
@@ -41,11 +53,13 @@ def index():
 @app.route("/hello")
 def hello():
     # request.cookies.get('user_ip') ==> obtiene la ip del usuario que esta almacenada en la cookie
-    #user_ip = request.cookies.get('user_ip')
+    # user_ip = request.cookies.get('user_ip')
     user_ip = session.get('user_ip')
+    login_form = LoginForm()
     context = {
         'user_ip': user_ip,
-        'todos': todos
+        'todos': todos,
+        'login_form': login_form
     }
 
     # return 'Bienvenido, tu IP es {}'.format(user_ip)
