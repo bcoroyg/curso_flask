@@ -4,6 +4,8 @@ import unittest
 
 from app import create_app
 
+from app.firestore_service import get_users, get_todos
+
 # creamos instancia de Flask
 #app = Flask(__name__)
 #bootstrap = Bootstrap4(app)
@@ -11,7 +13,7 @@ from app import create_app
 
 app = create_app()
 
-todos = ['Todo 1', 'Todo 2', 'Todo 3']
+#todos = ['Todo 1', 'Todo 2', 'Todo 3']
 
 
 @app.cli.command()
@@ -56,9 +58,15 @@ def hello():
 
     context = {
         'user_ip': user_ip,
-        'todos': todos,
+        'todos': get_todos(user_id=username),
         'username': username
     }
+
+    users = get_users()
+    
+    # for user in users:
+    #     print(user.id)
+    #     print(user.to_dict()['password'])
 
     # return 'Bienvenido, tu IP es {}'.format(user_ip)
     # return render_template("index.html", user_ip=user_ip, todos=todos)
