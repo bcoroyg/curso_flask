@@ -1,7 +1,9 @@
 from flask import Flask, request, make_response, redirect, render_template
-
+from flask_bootstrap import Bootstrap4;
 # creamos instancia de Flask
 app = Flask(__name__)
+
+bootstrap = Bootstrap4(app)
 
 todos = ['Todo 1', 'Todo 2', 'Todo 3']
 

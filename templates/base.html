@@ -1,15 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{%block title%} App Login | {%endblock%}</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    {% block head %}
+      <!-- Required meta tags -->
+      <meta charset="utf-8" />
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no"
+      />
+
+      {% block styles %}
+      <!-- Bootstrap CSS -->
+        {{ bootstrap.load_css() }} 
+      {% endblock %}
+      <link
+        rel="stylesheet"
+        href="{{url_for('static', filename='css/style.css')}}"
+      />
+      <title>{%block title%} App Login | {%endblock%}</title>
+    {% endblock head %}
   </head>
   <body>
-    <header>
-      {% include 'navbar.html' %}
-    </header>
-    {% block content %} {% endblock content %}
+    {% block navbar %} {% include 'navbar.html' %} {% endblock navbar %} {%
+    block content %} {% endblock content %} 
+    
+    {% block scripts %}
+      <!-- Optional JavaScript -->
+      {{ bootstrap.load_js() }} 
+    {% endblock scripts%}
   </body>
 </html>
