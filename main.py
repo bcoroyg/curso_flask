@@ -1,5 +1,5 @@
 from flask import request, make_response, redirect, render_template, session, url_for, flash
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 import unittest
 
@@ -8,21 +8,23 @@ from app import create_app
 from app.firestore_service import get_todos
 
 # creamos instancia de Flask
-#app = Flask(__name__)
-#bootstrap = Bootstrap4(app)
-#app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+# app = Flask(__name__)
+# bootstrap = Bootstrap4(app)
+# app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 app = create_app()
 
-#todos = ['Todo 1', 'Todo 2', 'Todo 3']
+# todos = ['Todo 1', 'Todo 2', 'Todo 3']
 
 
 @app.cli.command()
 def test():
-    tests= unittest.TestLoader().discover('tests')
+    tests = unittest.TestLoader().discover('tests')
     unittest.TextTestRunner().run(tests)
 
 # Error 404
+
+
 @app.errorhandler(404)
 def not_found(error):
     return render_template('404.html', error=error)
@@ -56,7 +58,8 @@ def hello():
     # request.cookies.get('user_ip') ==> obtiene la ip del usuario que esta almacenada en la cookie
     # user_ip = request.cookies.get('user_ip')
     user_ip = session.get('user_ip')
-    username = session.get('username')
+    # username = session.get('username')
+    username = current_user.id
 
     context = {
         'user_ip': user_ip,
