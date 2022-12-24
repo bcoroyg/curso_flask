@@ -25,6 +25,11 @@
     {% endfor %}
   </ol>
 
+  <div class="container">
+    <h2 class="text-center">Crear una tarea</h2>
+    {{render_form(todo_form)}}
+ </div>
+
   <img src="{{url_for('static', filename='images/prod-1.jpg')}}" alt="image" srcset="">
 
 {% endblock content %}
